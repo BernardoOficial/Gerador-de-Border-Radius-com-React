@@ -1,0 +1,21 @@
+.visualizador {
+    grid-row: 2 / 4;
+    grid-column: 2 / 3;
+
+    background-color: #ffffff;
+    border: 5px solid #434334;
+    
+    border-radius: 20%;
+
+    width: 400px;
+    height: 400px;
+
+    padding: 20px;
+    font-size: 2rem;
+    line-height: 2.6rem;
+    text-align: center;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

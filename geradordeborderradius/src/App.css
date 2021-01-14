@@ -1,0 +1,10 @@
+.gerador {
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgb(47,4,143);
+    background: linear-gradient(140deg, rgba(47,4,143,1) 0%, rgba(103,50,219,1) 41%);
+}

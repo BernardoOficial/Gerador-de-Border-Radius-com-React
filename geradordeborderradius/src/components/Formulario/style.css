@@ -1,0 +1,27 @@
+.form {
+    display: grid;
+
+    width: 95%;
+
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 50px auto auto;
+
+    justify-items: center;
+    align-items: center;
+
+    gap: 30px;
+}
+
+.form__title {
+    grid-column: 1 / 4;
+
+    font-size: 3rem;
+    line-height: 2.6rem;
+    text-align: center;
+    color: #ffffff;
+
+    text-shadow: 0 0 2px #434343,
+    2px 0 3px #434343,
+    4px 0 4px #434343,
+    6px 0 5px #434343;
+}
