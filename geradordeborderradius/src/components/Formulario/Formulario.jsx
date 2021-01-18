@@ -13,41 +13,50 @@ class Formulario extends Component {
         this.inputTopRight = null;
         this.inputBottomLeft = null;
         this.inputBottomRight = null;
+
+        this.state = {
+            inputName: null,
+            inputModificado: null
+        }
     }
 
     escutarDigito(evento) {
 
-        evento.stopPropagation();
+        this.inputEvent = evento.target.getAttribute('name');
+        this.inputValue = evento.target.value;
 
-        this.inputTopLeft = evento.target.value;
-        this.inputTopRight = evento.target.value;
-        this.inputBottomLeft = evento.target.value;
-        this.inputBottomRight = evento.target.value;
-
-        console.log(this.inputTopLeft);
+        if (this.inputEvent === 'topEsquerdo') {
+            this.setState({ inputName: this.inputEvent, inputModificado: this.inputValue })
+        } else if (this.inputEvent === 'topDireito') {
+            this.setState({ inputName: this.inputEvent, inputModificado: this.inputValue })
+        } else if (this.inputEvent === 'bottomEsquerdo') {
+            this.setState({ inputName: this.inputEvent, inputModificado: this.inputValue })
+        } else {
+            this.setState({ inputName: this.inputEvent, inputModificado: this.inputValue })
+        }
     }
 
     render() {
         return (
-            <form className="form">
+            <form className="form" onInput={this.escutarDigito.bind(this)}>
 
                 <h1 className="form__title">Gerador de Border Radius</h1>
 
-                {this.props.placeholdersEsqInput.map((placeholder, index) => {
+                {this.props.placeholdersTopInput.map((objAtributes, index) => {
                     return <CampoDefiniBorda
                         key={index}
-                        placeholder={placeholder}
-                        onInput={this.escutarDigito.bind(this)}
+                        name={objAtributes.name}
+                        placeholder={objAtributes.placeholder}
                     />
                 })}
 
-                <Visualizador />
+                <Visualizador dadosInput={this.state} />
 
-                {this.props.placeholdersDirInput.map((placeholder, index) => {
+                {this.props.placeholdersBottomInput.map((objAtributes, index) => {
                     return <CampoDefiniBorda
                         key={index}
-                        placeholder={placeholder}
-                        onInput={this.escutarDigito.bind(this)}
+                        name={objAtributes.name}
+                        placeholder={objAtributes.placeholder}
                     />
                 })}
             </form>

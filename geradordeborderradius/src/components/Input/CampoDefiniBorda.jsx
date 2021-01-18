@@ -9,7 +9,7 @@ class CampoDefiniBorda extends Component {
             <input
                 className="campo"
                 type="text"
-                onInput={this.props.onInput}
+                name={this.props.name}
                 placeholder={this.props.placeholder}
             />
         );

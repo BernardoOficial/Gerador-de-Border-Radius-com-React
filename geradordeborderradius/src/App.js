@@ -8,8 +8,26 @@ class App extends Component {
     return (
       <section className="gerador">
         <Formulario
-          placeholdersEsqInput={["Digite o canto Top-Left em pixel", "Digite o canto Top-Right em pixel"]}
-          placeholdersDirInput={["Digite o canto Bottom-Left em pixel", "Digite o canto Bottom-Right em pixel"]}
+          placeholdersTopInput={[
+            {
+              placeholder: "Digite o canto Top-Left em pixel",
+              name: "topEsquerdo"
+            },
+            {
+              placeholder: "Digite o canto Top-Right em pixel",
+              name: "topDireito"
+            }
+          ]}
+          placeholdersBottomInput={[
+            {
+              placeholder: "Digite o canto Bottom-Left em pixel",
+              name: "bottomEsquerdo"
+            },
+            {
+              placeholder: "Digite o canto Bottom-Right em pixel",
+              name: "bottomDireito"
+            }
+          ]}
         />
       </section>
     );
