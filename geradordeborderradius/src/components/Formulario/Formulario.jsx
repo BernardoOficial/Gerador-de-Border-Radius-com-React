@@ -11,7 +11,12 @@ class Formulario extends Component {
 
         this.name = null;
         this.value = null;
-        this.mensagens = [];
+        this.mensagens = {
+            topEsquerdo: null,
+            topDireito: null,
+            bottomEsquerdo: null,
+            bottomDireito: null,
+        };
 
         this.state = {
             inputName: null,
@@ -49,7 +54,6 @@ class Formulario extends Component {
         this.visualizador = document.querySelector('.visualizador');
         this.name = inputName;
         this.value = inputModificado;
-        console.log(typeof this.value, typeof this.value.length);
 
         if (this.name === 'topEsquerdo') {
             if (this.value.length !== 0) { this.visualizador.style.borderTopLeftRadius = `${this.value}px`; } else { this.visualizador.style.borderTopLeftRadius = `${0}px`; }
@@ -60,7 +64,7 @@ class Formulario extends Component {
         } else if (this.name === 'bottomEsquerdo') {
             if (!this.value.length !== 0) { this.visualizador.style.borderBottomLeftRadius = `${this.value}px`; } else { this.visualizador.style.borderBottomLeftRadius = `${0}px`; }
 
-        } else {
+        } else if (this.name === 'bottomDireito') {
             if (!this.value.length !== 0) { this.visualizador.style.borderBottomRightRadius = `${this.value}px`; } else { this.visualizador.style.borderBottomRightRadius = `${0}px`; }
         }
     }
@@ -70,39 +74,72 @@ class Formulario extends Component {
         this.name = inputName;
         this.value = inputModificado;
 
-        if (this.name === 'topEsquerdo') {
-            if (this.value.length !== 0) { this.mensagens.pop(); this.mensagens.push(`border-top-left-radius: ${this.value}px;`); }
-
-        } else if (this.name === 'topDireito') {
-            if (this.value.length !== 0) { this.mensagens.push(`border-top-right-radius: ${this.value}px;`); }
-
-        } else if (this.name === 'bottomEsquerdo') {
-            if (this.value.length !== 0) { this.mensagens.push(`border-bottom-left-radius: ${this.value}px;`); }
-
-        } else {
-            if (this.value.length !== 0) { this.mensagens.push(`border-bottom-right-radius: ${this.value}px;`); }
+        if (this.name === 'topEsquerdo' && this.value.length !== 0) {
+            this.mensagens.topEsquerdo = `border-top-left-radius: ${this.value}px;`;
+        }
+        else if (this.name === 'topEsquerdo' && this.value.length === 0) {
+            this.mensagens.topEsquerdo = ``;
         }
 
-        this.colocarCadaArrayDentroDoSpan(this.mensagens);
+        if (this.name === 'topDireito' && this.value.length !== 0) {
+            this.mensagens.topDireito = `border-top-right-radius: ${this.value}px;`;
+        }
+        else if (this.name === 'topDireito' && this.value.length === 0) {
+            this.mensagens.topDireito = ``;
+        }
+
+        if (this.name === 'bottomEsquerdo' && this.value.length !== 0) {
+            this.mensagens.bottomEsquerdo = `border-bottom-left-radius: ${this.value}px;`;
+        }
+        else if (this.name === 'bottomEsquerdo' && this.value.length === 0) {
+            this.mensagens.bottomEsquerdo = ``;
+        }
+
+        if (this.name === 'bottomDireito' && this.value.length !== 0) {
+            this.mensagens.bottomDireito = `border-bottom-right-radius: ${this.value}px;`;
+        }
+        else if (this.name === 'bottomDireito' && this.value.length === 0) {
+            this.mensagens.bottomDireito = ``;
+        }
+
+        this.colocarCadaArrayDentroDoSpan(this.mensagens, this.value);
     }
 
-    colocarCadaArrayDentroDoSpan(mensagens) {
+    colocarCadaArrayDentroDoSpan(mensagens, inputValue) {
 
-        var visualizador = document.querySelector('.visualizador');
+        const visualizador = document.querySelector('.visualizador');
         visualizador.innerHTML = '';
 
-        if (mensagens.length == 0) {
-            var span = document.createElement('span');
-            span.textContent = "Seu código aparecerá aqui! Selecione o texto e copie para seu código.";
-            visualizador.appendChild(span);
-        } else {
-            mensagens.forEach(function (mensagem) {
-                var span = document.createElement('span');
-                visualizador.appendChild(span);
-                span.textContent = mensagem;
-            });
-        }
+        console.log(mensagens);
 
+        let campoVazio = 0;
+
+        Object.entries(mensagens).forEach(([attribute, value], key) => {
+
+            if (value) {
+
+                let getSpanElementDOM = document.querySelector(`[data-span-key="${key}"]`);
+
+                if (getSpanElementDOM) {
+                    getSpanElementDOM.textContent = value;
+                }
+                else {
+                    const span = document.createElement('span');
+                    span.setAttribute('data-span-key', `${key}`);
+                    span.textContent = value;
+                    visualizador.appendChild(span);
+                }
+            }
+            else {
+                campoVazio++;
+            }
+
+            if (campoVazio >= 4) {
+                const span = document.createElement('span');
+                span.textContent = "Seu código aparecerá aqui! Selecione o texto e copie para seu código.";
+                visualizador.appendChild(span);
+            }
+        })
     }
 
     render() {
