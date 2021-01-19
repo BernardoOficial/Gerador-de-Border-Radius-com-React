@@ -9,10 +9,9 @@ class Formulario extends Component {
     constructor(props) {
         super(props)
 
-        this.inputTopLeft = null;
-        this.inputTopRight = null;
-        this.inputBottomLeft = null;
-        this.inputBottomRight = null;
+        this.name = null;
+        this.value = null;
+        this.mensagens = [];
 
         this.state = {
             inputName: null,
@@ -25,15 +24,85 @@ class Formulario extends Component {
         this.inputEvent = evento.target.getAttribute('name');
         this.inputValue = evento.target.value;
 
+        let objValuesInput = null;
+
         if (this.inputEvent === 'topEsquerdo') {
-            this.setState({ inputName: this.inputEvent, inputModificado: this.inputValue })
+            objValuesInput = { inputName: this.inputEvent, inputModificado: this.inputValue }
+            this.setState(objValuesInput);
         } else if (this.inputEvent === 'topDireito') {
-            this.setState({ inputName: this.inputEvent, inputModificado: this.inputValue })
+            objValuesInput = { inputName: this.inputEvent, inputModificado: this.inputValue }
+            this.setState(objValuesInput);
         } else if (this.inputEvent === 'bottomEsquerdo') {
-            this.setState({ inputName: this.inputEvent, inputModificado: this.inputValue })
+            objValuesInput = { inputName: this.inputEvent, inputModificado: this.inputValue }
+            this.setState(objValuesInput);
         } else {
-            this.setState({ inputName: this.inputEvent, inputModificado: this.inputValue })
+            objValuesInput = { inputName: this.inputEvent, inputModificado: this.inputValue }
+            this.setState(objValuesInput);
         }
+
+        this.uptadeBorderVisualizador(objValuesInput);
+        this.uptadeCodigoParaUsuario(objValuesInput);
+    }
+
+    uptadeBorderVisualizador({ inputName, inputModificado }) {
+
+        this.visualizador = document.querySelector('.visualizador');
+        this.name = inputName;
+        this.value = inputModificado;
+        console.log(typeof this.value, typeof this.value.length);
+
+        if (this.name === 'topEsquerdo') {
+            if (this.value.length !== 0) { this.visualizador.style.borderTopLeftRadius = `${this.value}px`; } else { this.visualizador.style.borderTopLeftRadius = `${0}px`; }
+
+        } else if (this.name === 'topDireito') {
+            if (!this.value.length !== 0) { this.visualizador.style.borderTopRightRadius = `${this.value}px`; } else { this.visualizador.style.borderTopRightRadius = `${0}px`; }
+
+        } else if (this.name === 'bottomEsquerdo') {
+            if (!this.value.length !== 0) { this.visualizador.style.borderBottomLeftRadius = `${this.value}px`; } else { this.visualizador.style.borderBottomLeftRadius = `${0}px`; }
+
+        } else {
+            if (!this.value.length !== 0) { this.visualizador.style.borderBottomRightRadius = `${this.value}px`; } else { this.visualizador.style.borderBottomRightRadius = `${0}px`; }
+        }
+    }
+
+    uptadeCodigoParaUsuario({ inputName, inputModificado }) {
+
+        this.name = inputName;
+        this.value = inputModificado;
+
+        if (this.name === 'topEsquerdo') {
+            if (this.value.length !== 0) { this.mensagens.pop(); this.mensagens.push(`border-top-left-radius: ${this.value}px;`); }
+
+        } else if (this.name === 'topDireito') {
+            if (this.value.length !== 0) { this.mensagens.push(`border-top-right-radius: ${this.value}px;`); }
+
+        } else if (this.name === 'bottomEsquerdo') {
+            if (this.value.length !== 0) { this.mensagens.push(`border-bottom-left-radius: ${this.value}px;`); }
+
+        } else {
+            if (this.value.length !== 0) { this.mensagens.push(`border-bottom-right-radius: ${this.value}px;`); }
+        }
+
+        this.colocarCadaArrayDentroDoSpan(this.mensagens);
+    }
+
+    colocarCadaArrayDentroDoSpan(mensagens) {
+
+        var visualizador = document.querySelector('.visualizador');
+        visualizador.innerHTML = '';
+
+        if (mensagens.length == 0) {
+            var span = document.createElement('span');
+            span.textContent = "Seu código aparecerá aqui! Selecione o texto e copie para seu código.";
+            visualizador.appendChild(span);
+        } else {
+            mensagens.forEach(function (mensagem) {
+                var span = document.createElement('span');
+                visualizador.appendChild(span);
+                span.textContent = mensagem;
+            });
+        }
+
     }
 
     render() {
@@ -50,7 +119,7 @@ class Formulario extends Component {
                     />
                 })}
 
-                <Visualizador dadosInput={this.state} />
+                <Visualizador />
 
                 {this.props.placeholdersBottomInput.map((objAtributes, index) => {
                     return <CampoDefiniBorda
